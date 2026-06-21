@@ -1,0 +1,16 @@
+Visitor
+
+Zustände werden in Stacks gespeichert
+ANTLR steuert den Visitor
+push und pop ermöglichen den Zugriff auf den Stack können aber probleme bei falscher reihenfolge verursachen
+
+Pattern Maching
+
+ist Zustandslos da die Daten über Parameter und Rückgabewerte laufen
+Wir steuern manuell
+funktioniert sehr intuitiv
+
+Fazit:
+Visitor Pattern isst Mächtig, wir müssen uns um die Traversierung nicht selber kümmern, aber durch den Stack auch fehleranfällig
+
+Pattern Matching ist bei kleinen Grammatiken gut umzusetzen und sehr übersichtlich
