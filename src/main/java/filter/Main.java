@@ -20,7 +20,7 @@ public class Main {
         """
         genre in ("rock", "jazz") or year <= 1990 and not artist == "Beatles"
         """;
-    var ast1 = AstBuilders.fromQuery(query, new AstBuilderPattern()::translate);
+    var ast1 = AstBuilders.fromQuery(query, ctx -> new AstBuilderPattern().translate(ctx));
     var ast2 = AstBuilders.fromQuery(query, new AstBuilderVisitor()::translate);
     IO.println(AstPrinter.toString(ast1));
     IO.println(AstPrinter.toString(ast2));

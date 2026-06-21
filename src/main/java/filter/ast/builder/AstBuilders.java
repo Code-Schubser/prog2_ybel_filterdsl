@@ -15,7 +15,16 @@ public class AstBuilders {
 
   public static Expr simplify(Expr e) {
     // TODO
-    return e;
+    if (e == null) return null;
+
+    return switch (e) {
+      case Expr.Not(Expr.Not(Expr inner)) -> simplify(inner);
+      case Expr.Not(Expr inner) -> new Expr.Not(simplify(inner));
+      case Expr.And(Expr left, Expr right) -> new Expr.And(simplify(left), simplify(right));
+      case Expr.Or(Expr left, Expr right) -> new Expr.Or(simplify(left), simplify(right));
+      case Expr.Comparison c -> c;
+      case Expr.InList i -> i;
+    };
   }
 
   public static FilterParser.QueryContext parse(String query) {

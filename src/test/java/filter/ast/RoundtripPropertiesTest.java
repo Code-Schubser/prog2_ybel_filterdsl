@@ -1,16 +1,37 @@
 package filter.ast;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import filter.ast.builder.AstBuilderPattern;
 import filter.ast.builder.AstBuilderVisitor;
 import filter.ast.builder.AstBuilders;
+import filter.ast.nodes.Expr;
 import filter.ast.printer.AstPrinter;
 import net.jqwik.api.*;
 
 public class RoundtripPropertiesTest {
 
   // TODO
+  @Property
+  boolean roundtripPatternBuilder(@ForAll("simpleQueries") String query) {
+    Expr ast1 = AstBuilders.fromQuery(query, new AstBuilderPattern()::translate);
+    String printed = AstPrinter.toString(ast1);
+    Expr ast2 = AstBuilders.fromQuery(printed, new AstBuilderPattern()::translate);
+    return ast1.equals(ast2);
+  }
+
+  @Property
+  boolean roundtripVisitorBuilder(@ForAll("simpleQueries") String query) {
+    Expr ast1 = AstBuilders.fromQuery(query, new AstBuilderVisitor()::translate);
+    String printed = AstPrinter.toString(ast1);
+    Expr ast2 = AstBuilders.fromQuery(printed, new AstBuilderVisitor()::translate);
+    return ast1.equals(ast2);
+  }
+
+  @Property
+  boolean bothBuildersAreIdentical(@ForAll("simpleQueries") String query) {
+    Expr astPattern = AstBuilders.fromQuery(query, new AstBuilderPattern()::translate);
+    Expr astVisitor = AstBuilders.fromQuery(query, new AstBuilderVisitor()::translate);
+    return astPattern.equals(astVisitor);
+  }
 
   // ---------- @Provide-Methods for Arbitraries ----------
 
